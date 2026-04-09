@@ -1,6 +1,6 @@
 # Crypto Monitor for Windows (OKX)
 
-Windows 桌面即時幣價監測工具（Tkinter + OKX WebSocket）。
+基於AI生成 Windows 桌面即時幣價監測工具（Tkinter + OKX WebSocket）。
 
 ## 主要功能
 
