@@ -1,6 +1,6 @@
 # Crypto Monitor for Windows (OKX)
 
-基於AI生成 Windows 桌面即時幣價監測工具（Tkinter + OKX WebSocket）。
+Windows 桌面即時幣價監測工具（Tkinter + OKX WebSocket）。
 
 ## 主要功能
 
@@ -45,6 +45,64 @@ copy .env.example .env
 - `OKX_INST_IDS`：預設訂閱交易對（逗號分隔）
 - `RECONNECT_SECONDS`：斷線重連秒數
 
+## Telegram 接入教學
+
+### 1) 建立 Telegram Bot
+
+1. 在 Telegram 搜尋 `@BotFather`
+2. 輸入 `/newbot`
+3. 按提示設定 Bot 名稱與使用者名稱（需以 `bot` 結尾）
+4. 建立後會拿到 `Bot Token`（格式像 `123456:ABC...`）
+
+請妥善保存 token，不要公開。
+
+### 2) 取得 Chat ID
+
+有兩種常見方式：
+
+- **個人聊天**
+  1. 對你的 Bot 發一則訊息（例如 `hi`）
+  2. 在瀏覽器打開：
+     `https://api.telegram.org/bot<你的BotToken>/getUpdates`
+  3. 在回傳 JSON 裡找到 `chat.id`（通常是正整數）
+
+- **群組聊天**
+  1. 把 Bot 加入目標群組，並先在群組發一則訊息
+  2. 同樣打開 `getUpdates` URL
+  3. 找到群組的 `chat.id`（通常是負數，例如 `-100...`）
+
+### 3) 在程式內填入 Telegram 設定
+
+1. 啟動程式後，打開「設置」
+2. 找到 Telegram 區塊，填入：
+   - `Bot Token`
+   - `Chat ID`
+3. 勾選 `Telegram 升跌提醒`
+4. 點擊 `儲存 Telegram`
+5. 點擊 `測試發送`，確認是否可收到訊息
+
+### 4) 設定定時報價（可選）
+
+在「設置」視窗可設定：
+
+- `定時報價`：數值（例如 `5`）
+- 單位：`sec` / `min` / `hour`
+- `報價模式`：
+  - `interval`：每幾秒/分/小時發一次
+  - `hourly_minute`：每小時固定第幾分
+  - `at_time`：每天固定時間（`HH:MM`，可多個逗號分隔）
+
+### 5) 常見問題排查
+
+- 收不到訊息：
+  - 先確認你已對 Bot（或群組）發過訊息
+  - 檢查 `Bot Token` 與 `Chat ID` 是否有多空白
+  - 群組模式請確認 Bot 有發言權限
+- `getUpdates` 沒資料：
+  - 先手動對 Bot 發訊息，再重新整理
+- 避免憑證外洩：
+  - 不要把含 token 的設定檔上傳到公開倉庫
+
 ## Telegram 定時報價模式
 
 在「設置」視窗可選：
@@ -66,3 +124,4 @@ copy .env.example .env
 ```
 
 產物位於 `dist\app.exe`。
+
